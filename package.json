@@ -9,7 +9,7 @@
     "dev": "nodemon src/index.js"
   },
   "keywords": [],
-  "author": "Marina_Strukova <meribsv@gmail.com>",
+  "author": "Alexander Repeta <a.repeta@goit.global>",
   "license": "ISC",
   "description": "",
   "dependencies": {
