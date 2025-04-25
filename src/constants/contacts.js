@@ -1,1 +1,1 @@
-export const typeList = ['work', 'home', 'personal'];
+export const typeList = ['personal', 'home', 'work'];

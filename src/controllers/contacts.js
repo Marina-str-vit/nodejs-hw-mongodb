@@ -6,7 +6,6 @@ import {
   patchContact,
   deleteContact,
 } from '../services/contacts.js';
-import { createContactsSchema } from '../validation/contacts.js';
 
 export const getContactsController = async (req, res) => {
   const contacts = await getAllContacts();
@@ -32,18 +31,6 @@ export const getContactsByIdController = async (req, res) => {
 };
 
 export const addContactController = async (req, res) => {
-  const validationResult = createContactsSchema.validate(dataToValidate);
-  if (validationResult.error) {
-    console.error(validationResult.error.message);
-  } else {
-    console.log('Data is valid!');
-  }
-  // const { error } = createContactsSchema.validate(req.body);
-  // if (error) {
-  //   throw createError(404, error.message);
-  // }
-  // console.log(error);
-
   const contact = await addContact(req.body);
 
   res.status(201).json({

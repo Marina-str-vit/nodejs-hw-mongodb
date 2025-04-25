@@ -17,6 +17,7 @@ export const patchContact = (contactId, payload, options = {}) => {
   const { upsert } = options;
   return ContactsCollection.findByIdAndUpdate(contactId, payload, {
     new: true,
+    runValidators: true,
     upsert,
   });
 };
