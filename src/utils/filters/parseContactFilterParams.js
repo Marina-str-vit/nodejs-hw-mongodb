@@ -1,8 +1,7 @@
 const parseIsFavourite = (isFavourite) => {
   const booleanType = typeof isFavourite === 'string';
   if (!booleanType) return;
-  const listOfIsFavourite = ['true', 'false'];
-  const contact = (isFavourite) => listOfIsFavourite.includes(isFavourite);
+  const contact = (isFavourite) => ['true', 'false'].includes(isFavourite);
 
   if (contact(isFavourite)) return isFavourite;
 };
