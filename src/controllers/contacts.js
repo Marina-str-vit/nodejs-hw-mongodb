@@ -13,13 +13,13 @@ import { parseContactFilterParams } from '../utils/filters/parseContactFilterPar
 
 export const getContactsController = async (req, res) => {
   const paginationParams = parsePaginationParams(req.query);
-  const SortParams = parseSortParams(req.query, sortContactsByList);
+  const sortParams = parseSortParams(req.query, sortContactsByList);
   const filters = parseContactFilterParams(req.query);
-  const contacts = await getAllContacts(
+  const contacts = await getAllContacts({
     ...paginationParams,
-    ...SortParams,
+    ...sortParams,
     filters,
-  );
+  });
   res.status(200).json({
     status: 200,
     message: 'Successfully found contacts!',

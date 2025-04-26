@@ -2,9 +2,9 @@ const parseIsFavourite = (isFavourite) => {
   const booleanType = typeof isFavourite === 'string';
   if (!booleanType) return;
   const listOfIsFavourite = ['true', 'false'];
-  const favourite = (isFavourite) => listOfIsFavourite.includes(isFavourite);
+  const contact = (isFavourite) => listOfIsFavourite.includes(isFavourite);
 
-  if (favourite(isFavourite)) return isFavourite;
+  if (contact(isFavourite)) return isFavourite;
 };
 
 export const parseContactFilterParams = ({ isFavourite }) => {
