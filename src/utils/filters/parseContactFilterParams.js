@@ -1,13 +1,18 @@
+import createHttpError from 'http-errors';
+
 const parseIsFavourite = (isFavourite) => {
-  const booleanType = typeof isFavourite === 'string';
-  if (!booleanType) return;
-  const listOfIsFavourite = ['true', 'false'];
-  const contact = (isFavourite) => listOfIsFavourite.includes(isFavourite);
+  const isBoolean = typeof isFavourite === 'string';
+  if (!isBoolean) return;
+  const contact = (isFavourite) => ['true', 'false'].includes(isFavourite);
 
   if (contact(isFavourite)) return isFavourite;
+  if (isBoolean !== 'string') {
+    throw createHttpError(404, `Bad request`);
+  }
 };
 
-export const parseContactFilterParams = ({ isFavourite }) => {
+export const parseContactFilterParams = (query) => {
+  const { isFavourite } = query;
   const parsedIsFavourite = parseIsFavourite(isFavourite);
   return {
     isFavourite: parsedIsFavourite,
