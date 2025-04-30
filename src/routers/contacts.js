@@ -15,32 +15,24 @@ import {
   deleteContactController,
 } from '../controllers/contacts.js';
 
-const contactsRouter = Router();
+const router = Router();
 
-contactsRouter.get('/', ctrlWrapper(getContactsController));
+router.get('/', ctrlWrapper(getContactsController));
 
-contactsRouter.get(
-  '/:contactId',
-  isValidId,
-  ctrlWrapper(getContactsByIdController),
-);
+router.get('/:contactId', isValidId, ctrlWrapper(getContactsByIdController));
 
-contactsRouter.post(
+router.post(
   '/',
   validateBody(createContactsSchema),
   ctrlWrapper(addContactController),
 );
 
-contactsRouter.patch(
+router.patch(
   '/:contactId',
   isValidId,
   validateBody(updateContactsSchema),
   ctrlWrapper(patchContactController),
 );
 
-contactsRouter.delete(
-  '/:contactId',
-  isValidId,
-  ctrlWrapper(deleteContactController),
-);
-export default contactsRouter;
+router.delete('/:contactId', isValidId, ctrlWrapper(deleteContactController));
+export default router;
