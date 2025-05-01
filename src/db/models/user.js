@@ -22,6 +22,12 @@ const userSchema = new Schema(
   { versionKey: false, timestamps: true },
 );
 
+userSchema.methods.toJSON = function () {
+  const obj = this.toObject();
+  delete obj.password;
+  return obj;
+};
+
 userSchema.post('save', handleSaveError);
 userSchema.pre('findByIdAndUpdate', setUpdateSettings);
 userSchema.post('findByIdAndUpdate', handleSaveError);

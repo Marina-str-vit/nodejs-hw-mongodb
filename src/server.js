@@ -8,6 +8,7 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import router from './routers/index.js';
 
 import { getEnvVar } from './utils/getEnvVar.js';
+import cookieParser from 'cookie-parser';
 
 const PORT = Number(getEnvVar('PORT', '3000'));
 const app = express();
@@ -15,6 +16,7 @@ const app = express();
 export const setupServer = () => {
   app.use(express.json());
   app.use(cors());
+  app.use(cookieParser());
   app.use(logger);
 
   app.use(router);
