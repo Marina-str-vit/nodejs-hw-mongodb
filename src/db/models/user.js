@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose';
-import { handleSaveError, setUpdateSettings } from './hooks.js';
+// import { handleSaveError, setUpdateSettings } from './hooks.js';
 
 const userSchema = new Schema(
   {
@@ -26,8 +26,8 @@ userSchema.methods.toJSON = function () {
   return obj;
 };
 
-userSchema.post('save', handleSaveError);
-userSchema.pre('findByIdAndUpdate', setUpdateSettings);
-userSchema.post('findByIdAndUpdate', handleSaveError);
+// userSchema.post('save', handleSaveError);
+// userSchema.pre('findByIdAndUpdate', setUpdateSettings);
+// userSchema.post('findByIdAndUpdate', handleSaveError);
 
 export const UsersCollection = model('users', userSchema);
