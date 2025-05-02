@@ -4,8 +4,9 @@ import { logger } from './middlewares/logger.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 
-// import authRouter from './routers/auth.js';
-import router from './routers/index.js';
+import contactsRouter from './routers/contacts.js';
+import authRouter from './routers/auth.js';
+// import router from './routers/index.js';
 
 import { getEnvVar } from './utils/getEnvVar.js';
 import cookieParser from 'cookie-parser';
@@ -19,7 +20,9 @@ export const setupServer = () => {
   app.use(cookieParser());
   app.use(logger);
 
-  app.use(router);
+  // app.use(router);
+  app.use('/contacts', contactsRouter);
+  app.use('/auth', authRouter);
 
   app.use(notFoundHandler);
   app.use(errorHandler);
