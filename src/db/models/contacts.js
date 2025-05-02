@@ -25,6 +25,10 @@ const contactsSchema = new Schema(
       required: true,
       default: typeList[0],
     },
+    parentId: {
+      type: Schema.Types.ObjectId,
+      ref: 'users',
+    },
   },
   {
     timestamps: true,
