@@ -1,6 +1,6 @@
 import { model, Schema } from 'mongoose';
 import { handleSaveError, setUpdateSettings } from './hooks.js';
-import { ROLES, emailRegexp } from '../../constants/index.js';
+import { emailRegexp } from '../../constants/index.js';
 
 const userSchema = new Schema(
   {
@@ -18,11 +18,6 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    role: {
-      type: String,
-      enum: [ROLES.TEACHER, ROLES.PARENT],
-      default: ROLES.PARENT,
-    },
   },
   { versionKey: false, timestamps: true },
 );
@@ -37,4 +32,4 @@ userSchema.post('save', handleSaveError);
 userSchema.pre('findByIdAndUpdate', setUpdateSettings);
 userSchema.post('findByIdAndUpdate', handleSaveError);
 
-export const UsersCollection = model('user', userSchema);
+export const UsersCollection = model('users', userSchema);
