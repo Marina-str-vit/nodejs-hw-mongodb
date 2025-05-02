@@ -5,7 +5,7 @@ import { randomBytes } from 'crypto';
 import { SessionsCollection } from '../db/models/session.js';
 
 import { FIFTEEN_MINUTES, ONE_DAY } from '../constants/index.js';
-import { UsersCollection } from '../db/models/User.js';
+import { UsersCollection } from '../db/models/user.js';
 
 export const registerUser = async (payload) => {
   const { email, password } = payload;
