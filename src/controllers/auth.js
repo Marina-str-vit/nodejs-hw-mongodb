@@ -24,7 +24,7 @@ export const loginController = async (req, res) => {
     expires: session.refreshTokenValidUntil,
   });
 
-  res.cookie('sessionId', session.id, {
+  res.cookie('sessionId', session._id, {
     httpOnly: true,
     expires: session.refreshTokenValidUntil,
   });

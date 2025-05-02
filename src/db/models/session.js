@@ -1,12 +1,13 @@
 import { Schema, model } from 'mongoose';
 
-import { handleSaveError, setUpdateSettings } from './hooks.js';
+// import { handleSaveError, setUpdateSettings } from './hooks.js';
 
 const sessionsSchema = new Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
-      ref: 'users',
+      unique: true,
+      required: true,
     },
     accessToken: {
       type: String,
@@ -28,10 +29,10 @@ const sessionsSchema = new Schema(
   { versionKey: false, timestamps: true },
 );
 
-sessionsSchema.post('save', handleSaveError);
+// sessionsSchema.post('save', handleSaveError);
 
-sessionsSchema.pre('findByIdAndUpdate', setUpdateSettings);
+// sessionsSchema.pre('findByIdAndUpdate', setUpdateSettings);
 
-sessionsSchema.post('findByIdAndUpdate', handleSaveError);
+// sessionsSchema.post('findByIdAndUpdate', handleSaveError);
 
 export const SessionsCollection = model('sessions', sessionsSchema);

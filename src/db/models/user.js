@@ -1,8 +1,7 @@
 import { model, Schema } from 'mongoose';
-import { handleSaveError, setUpdateSettings } from './hooks.js';
-import { ROLES, emailRegexp } from '../../constants/index.js';
+// import { handleSaveError, setUpdateSettings } from './hooks.js';
 
-const userSchema = new Schema(
+const usersSchema = new Schema(
   {
     name: {
       type: String,
@@ -10,7 +9,6 @@ const userSchema = new Schema(
     },
     email: {
       type: String,
-      match: emailRegexp,
       unique: true,
       required: true,
     },
@@ -18,23 +16,14 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    role: {
-      type: String,
-      enum: [ROLES.TEACHER, ROLES.PARENT],
-      default: ROLES.PARENT,
-    },
   },
   { versionKey: false, timestamps: true },
 );
 
-userSchema.methods.toJSON = function () {
+usersSchema.methods.toJSON = function () {
   const obj = this.toObject();
   delete obj.password;
   return obj;
 };
 
-userSchema.post('save', handleSaveError);
-userSchema.pre('findByIdAndUpdate', setUpdateSettings);
-userSchema.post('findByIdAndUpdate', handleSaveError);
-
-export const UsersCollection = model('user', userSchema);
+export const UsersCollection = model('users', usersSchema);
