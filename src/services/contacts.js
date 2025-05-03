@@ -1,4 +1,3 @@
-// src/services/students.js
 import { ContactsCollection } from '../db/models/contacts.js';
 import { calcPaginationData } from '../utils/calcPaginationData.js';
 import { sortOrderList } from '../constants/index.js';
@@ -9,6 +8,7 @@ export const getAllContacts = async ({
   sortBy = '_id',
   sortOrder = sortOrderList[0],
   filter = {},
+  userId,
 }) => {
   const limit = perPage;
   const skip = (page - 1) * perPage;
@@ -17,6 +17,8 @@ export const getAllContacts = async ({
   if (filter.isFavourite) {
     contactsQuery.where('isFavourite').equals(filter.isFavourite);
   }
+  contactsQuery.where('userId').equals(userId);
+
   const contactsCount = await ContactsCollection.find()
     .merge(contactsQuery)
     .countDocuments();
@@ -35,21 +37,25 @@ export const getAllContacts = async ({
   };
 };
 
-export const getContactById = (contactId) => {
-  const contact = ContactsCollection.findById(contactId);
+export const getContactById = (contactId, userId) => {
+  const contact = ContactsCollection.findById({ _id: contactId, userId });
   return contact;
 };
 
 export const addContact = (payload) => ContactsCollection.create(payload);
 
-export const patchContact = (contactId, payload, options = {}) => {
+export const patchContact = (contactId, userId, payload, options = {}) => {
   const { upsert } = options;
-  return ContactsCollection.findByIdAndUpdate(contactId, payload, {
-    new: true,
-    runValidators: true,
-    upsert,
-  });
+  return ContactsCollection.findByIdAndUpdate(
+    { _id: contactId, userId },
+    payload,
+    {
+      new: true,
+      runValidators: true,
+      upsert,
+    },
+  );
 };
 
-export const deleteContact = (filter) =>
-  ContactsCollection.findOneAndDelete(filter);
+export const deleteContact = (contactId, userId) =>
+  ContactsCollection.findOneAndDelete({ _id: contactId, userId });
