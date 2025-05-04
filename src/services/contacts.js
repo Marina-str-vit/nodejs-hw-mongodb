@@ -13,11 +13,12 @@ export const getAllContacts = async ({
   const limit = perPage;
   const skip = (page - 1) * perPage;
 
-  const contactsQuery = ContactsCollection.find({ userId });
+  const contactsQuery = ContactsCollection.find();
+  contactsQuery.where('userId').equals(userId);
+
   if (filter.isFavourite) {
     contactsQuery.where('isFavourite').equals(filter.isFavourite);
   }
-  // contactsQuery.where('userId').equals(userId);
 
   const contactsCount = await ContactsCollection.find()
     .merge(contactsQuery)
@@ -57,7 +58,7 @@ export const patchContact = async (
   options = {},
 ) => {
   const contact = await ContactsCollection.findOneAndUpdate(
-    { _id: contactId, userId: userId },
+    { _id: contactId, userId },
     payload,
     {
       new: true,
@@ -67,11 +68,10 @@ export const patchContact = async (
   return contact;
 };
 
-export const deleteContact = async (contactId, req) => {
-  const { user } = req;
+export const deleteContact = async (contactId, userId) => {
   const contact = await ContactsCollection.findOneAndDelete({
     _id: contactId,
-    userId: user._id,
+    userId,
   });
   return contact;
 };
