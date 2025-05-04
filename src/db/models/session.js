@@ -5,8 +5,8 @@ import { Schema, model } from 'mongoose';
 const sessionsSchema = new Schema(
   {
     userId: {
-      type: Schema.Types.ObjectId,
-      ref: 'users',
+      type: String,
+      required: true,
     },
     accessToken: {
       type: String,
