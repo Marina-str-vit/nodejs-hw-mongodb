@@ -38,7 +38,7 @@ export const getAllContacts = async ({
 };
 
 export const getContactById = (contactId, userId) => {
-  const contact = ContactsCollection.findById({ _id: contactId, userId });
+  const contact = ContactsCollection.findOne({ _id: contactId, userId });
   return contact;
 };
 
@@ -46,7 +46,7 @@ export const addContact = (payload) => ContactsCollection.create(payload);
 
 export const patchContact = (contactId, userId, payload, options = {}) => {
   const { upsert } = options;
-  return ContactsCollection.findByIdAndUpdate(
+  return ContactsCollection.findOneAndUpdate(
     { _id: contactId, userId },
     payload,
     {
