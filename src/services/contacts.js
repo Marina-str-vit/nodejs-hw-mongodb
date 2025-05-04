@@ -7,17 +7,17 @@ export const getAllContacts = async ({
   perPage = 10,
   sortBy = '_id',
   sortOrder = sortOrderList[0],
-  filter = {},
   userId,
+  filter = {},
 }) => {
   const limit = perPage;
   const skip = (page - 1) * perPage;
 
-  const contactsQuery = ContactsCollection.find();
+  const contactsQuery = ContactsCollection.find({ userId });
   if (filter.isFavourite) {
     contactsQuery.where('isFavourite').equals(filter.isFavourite);
   }
-  contactsQuery.where('userId').equals(userId);
+  // contactsQuery.where('userId').equals(userId);
 
   const contactsCount = await ContactsCollection.find()
     .merge(contactsQuery)
@@ -37,25 +37,41 @@ export const getAllContacts = async ({
   };
 };
 
-export const getContactById = (contactId, userId) => {
-  const contact = ContactsCollection.findOne({ _id: contactId, userId });
+export const getContactById = async (contactId, userId) => {
+  const contact = await ContactsCollection.findOne({
+    _id: contactId,
+    userId,
+  });
   return contact;
 };
 
-export const addContact = (payload) => ContactsCollection.create(payload);
+export const addContact = async (payload) => {
+  const contact = await ContactsCollection.create(payload);
+  return contact;
+};
 
-export const patchContact = (contactId, userId, payload, options = {}) => {
-  const { upsert } = options;
-  return ContactsCollection.findOneAndUpdate(
-    { _id: contactId, userId },
+export const patchContact = async (
+  contactId,
+  userId,
+  payload,
+  options = {},
+) => {
+  const contact = await ContactsCollection.findOneAndUpdate(
+    { _id: contactId, userId: userId },
     payload,
     {
       new: true,
-      runValidators: true,
-      upsert,
+      ...options,
     },
   );
+  return contact;
 };
 
-export const deleteContact = (contactId, userId) =>
-  ContactsCollection.findOneAndDelete({ _id: contactId, userId });
+export const deleteContact = async (contactId, req) => {
+  const { user } = req;
+  const contact = await ContactsCollection.findOneAndDelete({
+    _id: contactId,
+    userId: user._id,
+  });
+  return contact;
+};

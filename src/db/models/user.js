@@ -1,5 +1,4 @@
 import { model, Schema } from 'mongoose';
-// import { handleSaveError, setUpdateSettings } from './hooks.js';
 
 const usersSchema = new Schema(
   {
