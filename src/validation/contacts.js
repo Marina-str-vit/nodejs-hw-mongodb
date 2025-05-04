@@ -1,5 +1,6 @@
 import Joi from 'joi';
 import { typeList } from '../constants/contacts.js';
+import { isValidObjectId } from 'mongoose';
 
 export const createContactsSchema = Joi.object({
   name: Joi.string().min(3).max(20).required().messages({
@@ -30,6 +31,12 @@ export const createContactsSchema = Joi.object({
       'string.max': 'ContactType should have at most {#limit} characters',
       'any.required': 'ContactType is required',
     }),
+  userId: Joi.string().custom((value, helper) => {
+    if (value && !isValidObjectId(value)) {
+      return helper.message('User id should be a valid mongo id');
+    }
+    return true;
+  }),
 });
 
 // для  Patch запитів
@@ -39,4 +46,5 @@ export const updateContactsSchema = Joi.object({
   email: Joi.string(),
   isFavourite: Joi.boolean(),
   contactType: Joi.string().valid(...typeList),
+  userId: Joi.string(),
 });
