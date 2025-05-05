@@ -34,7 +34,7 @@ export const authenticate = async (req, res, next) => {
     return;
   }
 
-  const user = await UsersCollection.findById({ _id: session.userId });
+  const user = await UsersCollection.findOne({ _id: session.userId });
 
   if (!user) {
     next(createError(401));

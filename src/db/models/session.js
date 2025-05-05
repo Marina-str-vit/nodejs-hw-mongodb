@@ -5,8 +5,8 @@ import { Schema, model } from 'mongoose';
 const sessionsSchema = new Schema(
   {
     userId: {
-      type: String,
-      required: true,
+      type: Schema.Types.ObjectId,
+      ref: 'user',
     },
     accessToken: {
       type: String,
@@ -28,10 +28,4 @@ const sessionsSchema = new Schema(
   { versionKey: false, timestamps: true },
 );
 
-// sessionsSchema.post('save', handleSaveError);
-
-// sessionsSchema.pre('findByIdAndUpdate', setUpdateSettings);
-
-// sessionsSchema.post('findByIdAndUpdate', handleSaveError);
-
-export const SessionsCollection = model('sessions', sessionsSchema);
+export const SessionsCollection = model('session', sessionsSchema);

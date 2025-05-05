@@ -15,7 +15,9 @@ export const getContactsController = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
   const { sortBy, sortOrder } = parseSortParams(req.query);
   const filter = parseContactFilterParams(req.query);
-  const { userId } = req.user._id;
+  const userId = req.user._id;
+  console.log(userId);
+
   const data = await getAllContacts({
     page,
     perPage,
@@ -24,6 +26,8 @@ export const getContactsController = async (req, res) => {
     userId,
     filter,
   });
+  console.log(data);
+
   res.status(200).json({
     status: 200,
     message: 'Successfully found contacts!',
@@ -33,12 +37,12 @@ export const getContactsController = async (req, res) => {
 
 export const getContactsByIdController = async (req, res) => {
   const { contactId } = req.params;
-  console.log(contactId);
 
   const userId = req.user._id;
-  console.log(userId);
 
   const contact = await getContactById(contactId, userId);
+  console.log(contact);
+
   if (!contact) {
     throw createError(404, `Contact not found`);
   }
@@ -63,7 +67,7 @@ export const addContactController = async (req, res) => {
 
 export const patchContactController = async (req, res) => {
   const { contactId } = req.params;
-  const { userId } = req.user._id;
+  const userId = req.user._id;
   const result = await patchContact(contactId, userId, req.body);
 
   if (!result) {
@@ -73,7 +77,7 @@ export const patchContactController = async (req, res) => {
   res.json({
     status: 200,
     message: 'Successfully patched a contact',
-    data: console.log(result),
+    data: result.contacts,
   });
 };
 
