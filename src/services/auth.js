@@ -24,13 +24,13 @@ export const registerUser = async (payload) => {
   return newUser;
 };
 
-export const loginUser = async ({ email, password }) => {
-  const user = await UsersCollection.findOne({ email });
+export const loginUser = async (payload) => {
+  const user = await UsersCollection.findOne({ email: payload.email });
   if (!user) {
     throw createError(401, 'Email invalid');
   }
 
-  const isEqual = await bcrypt.compare(password, user.password);
+  const isEqual = await bcrypt.compare(payload.password, user.password);
   if (!isEqual) {
     throw createError(401, 'Unauthorized');
   }
@@ -40,25 +40,13 @@ export const loginUser = async ({ email, password }) => {
   const accessToken = randomBytes(30).toString('base64');
   const refreshToken = randomBytes(30).toString('base64');
 
-  return SessionsCollection.create({
+  return await SessionsCollection.create({
     userId: user._id,
     accessToken,
     refreshToken,
     accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
     refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
   });
-};
-
-const createSession = () => {
-  const accessToken = randomBytes(30).toString('base64');
-  const refreshToken = randomBytes(30).toString('base64');
-
-  return {
-    accessToken,
-    refreshToken,
-    accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
-    refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
-  };
 };
 
 export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
@@ -86,6 +74,16 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
     userId: session.userId,
     ...newSession,
   });
+};
+const createSession = () => {
+  const accessToken = randomBytes(30).toString('base64');
+  const refreshToken = randomBytes(30).toString('base64');
+  return {
+    accessToken,
+    refreshToken,
+    accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
+    refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
+  };
 };
 
 export const logoutUser = async (sessionId) => {

@@ -32,6 +32,7 @@ export const getAllContacts = async ({
     .exec();
 
   const paginationData = calcPaginationData(contactsCount, perPage, page);
+  console.log(paginationData);
 
   return {
     data,
@@ -40,10 +41,7 @@ export const getAllContacts = async ({
 };
 
 export const getContactById = async (contactId, userId) => {
-  const contact = await ContactsCollection.findOne({
-    _id: contactId,
-    userId,
-  });
+  const contact = await ContactsCollection.findOne({ _id: contactId, userId });
   return contact;
 };
 
