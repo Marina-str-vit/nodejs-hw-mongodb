@@ -28,6 +28,12 @@ contactsRouter.get(
   isValidId,
   ctrlWrapper(getContactsByIdController),
 );
+contactsRouter.get(
+  '/userId',
+  checkUser(),
+  isValidId,
+  ctrlWrapper(getContactsByIdController),
+);
 
 contactsRouter.post(
   '/',
@@ -43,6 +49,13 @@ contactsRouter.patch(
   validateBody(updateContactsSchema),
   ctrlWrapper(patchContactController),
 );
+// contactsRouter.patch(
+//   '/userId',
+//   checkUser(),
+//   isValidId,
+//   validateBody(updateContactsSchema),
+//   ctrlWrapper(patchContactController),
+// );
 
 contactsRouter.delete(
   '/:contactId',
