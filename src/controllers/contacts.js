@@ -23,8 +23,8 @@ export const getContactsController = async (req, res) => {
     perPage,
     sortBy,
     sortOrder,
-    userId,
     filter,
+    userId,
   });
   console.log(data);
 
@@ -40,7 +40,7 @@ export const getContactsByIdController = async (req, res) => {
 
   const userId = req.user._id;
 
-  const contact = await getContactById(userId, contactId);
+  const contact = await getContactById(contactId, userId);
   // console.log(contact);
 
   if (!contact) {
@@ -78,7 +78,7 @@ export const patchContactController = async (req, res) => {
   res.json({
     status: 200,
     message: 'Successfully patched a contact',
-    data: result.contact,
+    data: result,
   });
 };
 
