@@ -7,13 +7,13 @@ export const getAllContacts = async ({
   perPage = 10,
   sortBy = '_id',
   sortOrder = sortOrderList[0],
-  userId,
   filter = {},
+  userId,
 }) => {
   const limit = perPage;
   const skip = (page - 1) * perPage;
 
-  const contactsQuery = ContactsCollection.find({ userId });
+  const contactsQuery = ContactsCollection.find();
 
   contactsQuery.where('userId').equals(userId);
 
@@ -59,7 +59,7 @@ export const patchContact = async (
   const contact = await ContactsCollection.findOneAndUpdate(
     {
       _id: contactId,
-      userId,
+      userId: userId,
     },
     payload,
     {
